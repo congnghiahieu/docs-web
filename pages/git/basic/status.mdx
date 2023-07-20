@@ -1,0 +1,96 @@
+## Các trạng thái của file / folder trong git
+
+Có 5 trạng thái:
+
+- `Untracked`: **_file chưa được theo dõi bởi git_**
+- `Unmodified`: **_không phát hiện có sự thay đổi so với lần commit gần nhất ở git local repo_**
+- `Modified`: **_phát hiện thấy sự sửa đổi so với lần commit gần nhất trong git repo nhưng chưa được đưa vào cùng stagging_**
+- `Stagged`: **_File có sự thay đổi đã được đưa vào vùng stagging, vùng stagging là vùng để chuẩn bị cho commit to_**
+- `Commited`: **_File đã được lưu vào git repo (git local database)_**
+
+## Các lệnh cơ bản
+
+### `git add`
+
+- `git add` : Đưa file vào trạng thái stagged
+
+- Sử dụng git add với các file ở trạng thái `untracked` hoặc `modified` để đưa nó vào trạng thái `stagged`
+
+```bash
+git add file1 file2 dir1 dir2 ... # add 1 hoặc nhiều file
+```
+
+- **_Đưa toàn bộ file/folder ở trạng thái `Untracked` hoặc `Modified` vào vùng `Stagging`_**
+
+```bash
+git add --all
+
+# hoặc
+
+git add -A
+
+# hoặc add [thư mục hiện tại] (thư mục hiện tại ở đây là thư mục mà terminal đang chỉ tới)
+
+git add .
+```
+
+### `git commit`
+
+- `git commit`: đưa file / folder ở vùng stagging vào git local database
+
+- Sau khi đưa các file ở trạng thái `stagged` vào `git local database` thì các file đó sẽ trở về trạng thái `unmodified` (vì nó đã được cập nhật ở trong git local)
+
+- Thực hiện commit với tham số `-a`:
+
+  - Tham số `-a` tương đương việc thực hiện lệnh `git add` để đưa các file đang được giám sát, có sự thay đổi vào staging rồi tự động chạy git commit
+  - Ví dụ:
+
+  ```bash
+  git commit -a -m "Ghi chú về commit"
+
+  # Tương đương
+
+  git add .
+  git commit -m "Ghi chú về commit"
+  ```
+
+- Bổ sung commit cuối bằng tham số `--amend`:
+  - Nếu commit đã được tạo ra nhưng chưa thực hiện push lên remote (khi có làm việc với Remote Repo), có thể bổ sung vào commit cuối cùng gần nhất mà không phải tạo thêm 1 commit trong lịch sử
+  - Dùng trong trường hợp không muốn tạo ra nhiều commit trong lịch sử commit thì cho vào lệnh tham số `--amend`
+  - Ví dụ:
+  ```bash
+  git commit --amend -m "Thông tin về commit"
+  ```
+
+### `git status`
+
+`git status` sẽ hiện thị thông tin về các file ở trạng thái `modified` hoặc `untracked` (màu đỏ), ở trạng thái `stagging` (màu xanh)
+
+- Để hiện thị thông tin ngắn hơn ta dùng: `git status -s`
+- Lúc này trước các file có sự thay đổi có thể có các ký tự tương ứng với các thông tin gồm:
+  - `' '` = unmodified (không đổi)
+  - `M` = modified (có sửa đổi)
+  - `A` = added (file mới thêm)
+  - `D` = deleted (file bị xóa)
+  - `R` = renamed (đổi tên file)
+  - `C` = copied (file copy từ file khác)
+  - `U` = updated but unmerged (đã cập nhật, nhưng chưa merge)
+
+### `git log`
+
+`git log`: Hiện thị thông tin về lịch sử các lần commit
+
+**_Với commit gần nhất thì sẽ có hiện thị "HEAD -> ..." ngay cạnh bên_**
+
+- Sử dụng câu lệnh: `git log`: để hiện thị cụ thể thông tin về lịch sử commit
+- Để xem git log dưới dạng đồ thị:
+
+```bash
+git log
+
+git log --oneline
+
+git log --graph
+
+git log --oneline --graph
+```

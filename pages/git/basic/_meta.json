@@ -1,0 +1,13 @@
+{
+  "status": "Git status",
+  "basic_cmd": "Git basic command",
+  "reset_revert": "Git reset & git revert commit",
+  "diff": "Git diff, difference between commits",
+  "branch_merge": "Branch in git, merge branches",
+  "merge_rebase": "Git merge vs Git rebase",
+  "fetch_pull": "Github remote repo, git fetch & git pull",
+  "push": "Git push",
+  "tag_release": "Git tag & Github release",
+  "fork_pull_request": "Github fork, Github pull request",
+  "gitk": "Gitk, Git gui, Github Desktop"
+}

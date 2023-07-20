@@ -1,0 +1,19 @@
+# Note:
+
+1. Có cài Docker Desktop
+2. Có cài Docker-machine:
+   - D:\Docker\Docker-machine\bin\docker-machine.exe
+   - Đã cài đường dẫn thư mục bin của Docker-machine trong edit environment
+3. Chạy Docker dựa trên WSL2 engine (Máy ảo Docker desktop và Docker desktop data)
+   - C:\Users\admin\AppData\Local\Docker\wsl
+4. Đã tắt Hyper-V
+
+5. Trong WSL2 cũng đã cài Docker machine
+
+   - Lệnh cài:
+
+   ```bash
+   base=https://github.com/docker/machine/releases/download/v0.16.2 && curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine && sudo mv /tmp/docker-machine /usr/local/bin/docker-machine && chmod +x /usr/local/bin/docker-machine
+   ```
+
+   - Các lệnh như (npm, node, npx, n, docker-machine, ...) được lưu trong /usr/local/bin

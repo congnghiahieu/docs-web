@@ -1,0 +1,25 @@
+## Để thi hành 1 lệnh của 1 container (khi đang ở ngoài host)
+
+```bash
+docker exec {containerName} {command}
+```
+
+VD:
+
+```bash
+docker exec Ubuntu ls
+```
+
+## Thêm tham số -it để kết nối lại container với terminal
+
+VD:
+
+```bash
+docker exec -it Ubuntu bash
+```
+
+Tương đương với:
+
+```bash
+docker attach containerName
+```

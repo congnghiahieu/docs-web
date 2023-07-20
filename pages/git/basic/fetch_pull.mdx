@@ -1,0 +1,241 @@
+## `git remote` và `git push`
+
+### Liên kết với local với remote:
+
+```bash
+git remote add <tên remote mà ta muốn đặt> <địa chỉ của remote: có thể dưới dạng URL hoặc SSH Key>
+
+# Thường thì tên là "origin"
+```
+
+### Liệt kê các remote mà local kết nối tới
+
+- Câu lệnh:
+
+```bash
+git remote
+```
+
+- Để xem chi tiết:
+
+```bash
+git remote -v
+```
+
+### Xóa đi 1 remote
+
+- Câu lệnh:
+
+```bash
+git remote rm <tên remote>
+```
+
+### Đẩy dữ liệu lên remote server
+
+- Câu lệnh:
+
+```bash
+git push <tên remote> <tên nhánh từ local ta muốn đẩy lên>
+```
+
+VD:
+
+```bash
+git push origin master
+```
+
+- Nếu muốn đẩy tất cả các nhánh từ local ta sử dụng tham số `--all`
+  VD:
+
+```bash
+git push origin --all
+```
+
+- Khi đẩy lần đầu ta nên dùng tham số `-u` để lưu 1 **upstream**, lần sau ta sử dụng thì chỉ cần nhập `git push` mà không cần nhập rõ tên remote và tên branch
+
+VD:
+
+```bash
+# Lần đầu push
+
+git push -u origin master
+```
+
+```bash
+# Lần thứ 2 push
+
+git push
+```
+
+- Chú ý: Khi có branch trên remote server, ta dùng lệnh `git status` sẽ biết được branch hiện tại ở local tương ứng với branch nào trên remote, và biết được nhánh hiện tại ở local có up-to-date với remote hay không Dùng lệnh `git log`: chữ màu xanh tương ứng với nhánh trên local, chữ màu đỏ tương ứng với nhánh trên remote
+
+### Kiểm tra các nhánh ở trên local và remote
+
+- Kiểm tra các nhánh ở local:
+
+```bash
+git branch
+```
+
+- Kiểm tra các nhánh ở cả local và remote:
+
+```bash
+git branch -a
+```
+
+### Xóa đi 1 nhánh ở trên remote
+
+Câu lệnh:
+
+```bash
+git push --delete <tên remote> <tên nhánh>
+```
+
+VD:
+
+```bash
+git push --delete origin beta
+```
+
+## `git clone`, `git fetch` & `git pull`
+
+### Tải dữ liệu từ 1 remote về
+
+```bash
+git clone <địa chỉ của remote: có thể là link URL hoặc SSH key>
+```
+
+- Chú ý:
+  - Khi git clone, ta sẽ chỉ tải về 1 nhánh default (thường là nhánh master) (Ví dụ: ở trên remote có 2 nhánh là master và beta, thì khi clone về thì local của ta chỉ có nhánh master tương ứng với nhánh master trên remote).
+  - Sử dụng: git branch để kiểm tra những nhánh ở local và git branch -a để kiểm tra những nhánh ở remote
+  - Khi git clone, sẽ tự động tạo 1 remote tới địa chỉ mà ta vừa mới clone về
+    Sử dụng: git remote và git remote -v để kiểm tra
+
+### git fetch
+
+- Câu lệnh:
+
+```bash
+git fetch <remote repo name>
+```
+
+VD:
+
+```bash
+git fetch origin
+```
+
+- `git fetch` dùng để cập nhật thông tin về remote repo: cho biết local repo có chậm hơn hay up-to-date so với remote repo
+- Chú ý:
+  - `git fetch` chỉ cập nhật thông tin về các nhánh ở local so với repo
+  - Muốn cập nhật lịch sử commit ở local để up-to-date với remote repo thì ta phải dùng lệnh `git pull`
+  - `git fetch` chỉ cho ta biết thông tin về trạng thái up-to-date hay không còn `git pull` thì mới tải về các thay đổi thực sự ở các file/folder
+- **_Các bước cập nhật thông tin_**:
+
+  - Bước 1: kiểm tra lịch sử commit hiện hành
+
+    ```bash
+    git log
+
+    # hoặc
+
+    git log --oneline
+
+    ```
+
+  - Bước 2: cập nhật thông tin
+
+  ```bash
+  git fetch <remote name>
+  ```
+
+  - Bước 3:
+
+  ```bash
+  git log
+
+  # hoặc
+
+  git log --oneline
+
+  ```
+
+  - Bước 4: Kiểm tra xem sự khác nhau giữa lịch sử commit hiện hành so với remote repo thực sự
+
+  ```bash
+  git status
+  ```
+
+### Kiểm tra lịch sử commit của 1 remote branch
+
+- Bước 1: kiểm tra các remote:
+
+```bash
+git remote
+# hoặc
+git remote -v
+```
+
+- Bước 2:
+
+```bash
+git branch -a
+```
+
+- Bước 3:
+
+```bash
+git log --oneline --graph <tên remote>/<tên branch trên remote>
+```
+
+- VD:
+
+```bash
+git remote -v
+git branch -a
+git log --oneline --graph origin/master
+```
+
+### git pull
+
+- Tải các commit mới từ remote về local (sẽ gây ra sự thay đổi ở các file)
+- Câu lệnh:
+
+```bash
+git pull <tên remote> <tên branch ở remote mà ta muốn kéo về>
+```
+
+- Trong trường hợp ta muốn cập nhật, kéo về tất cả các nhánh từ remote ta dùng tham số `--all`
+  VD:
+
+```bash
+git pull origin master
+git pull origin --all
+```
+
+- Chú ý: khi thực hiện git pull là ta đang gộp nhánh ở local với nhánh ở remote
+- Trước khi pull ta cần kiểm tra theo các bước sau
+  - Bước 1: `git log` hoặc `git log --oneline`
+  - Bước 2: `git fetch origin`
+  - Bước 3: `git log --oneline`
+  - Bước 4: `git log --oneline <tên remote>/<tên branch>`
+  - Bước 5: `git status`
+    Sau 5 bước kiểm tra ở trên, tùy vào sự thay đổi mà chúng ta muốn hoặc không thì ta thực hiện git pull
+  - Bước 6: `git pull <tên remote> <tên branch>`
+
+### `git pull` vs `git merge`
+
+**_Bản chất của git pull là trộn nhánh từ remote/nhánh vào target là nhánh chúng ta đang đứng nên hoàn toàn có thể dùng lệnh git merge để thay thế_**
+
+- Bước 1: `git fetch <tên remote> (Để cập nhật thông tin)`
+- Bước 2: `git status`
+- Bước 3: `git log --oneline (kiểm tra lịch sử commit local)`
+- Bước 4: `git log --oneline origin/master (kiểm tra lịch sử commit ở trên remote)`
+- Bước 5: `git branch -a (kiểm tra các nhánh có trên local và remote)`
+- Bước 6: `git switch <nhánh target ở local>`
+- Bước 7: `git merge <tên remote>/<tên nhánh remote mà ta muốn gộp vào nhánh target>`
+- Bước 8: **Nếu có confilt thì xử lý**
+- Bước 9: Sau khi xử lý commit thì git add, git commit
+- Bước 10: **Sau khi thực hiện commit ở local (bước 7) thì chúng ta đang hơn so với remote là 1 commit (kiểm tra bằng lệnh git status và git log --oneline)**
+- Bước 11: Đẩy lại lên trên server commit chúng ta vừa thực hiện để cập nhật lịch sử commit trên server là up-to-date so với branch (dùng lệnh `git push`)
+- Bước 12: `git status` và `git log --oneline` để kiểm tra

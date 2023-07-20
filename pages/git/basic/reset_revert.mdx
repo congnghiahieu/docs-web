@@ -1,0 +1,40 @@
+## Hủy commit cuối bằng lệnh git reset
+
+**_Khi đã thực hiện commit, commit đó chưa public (chưa đẩy lên Remote Repo bằng lệnh `git push`) thì bạn có thể hủy (undo) commit đó với hai trường hợp bằng lệnh `git reset`_**
+
+## `git reset` với tham số `--soft`
+
+- Trường hợp này sẽ hủy commit cuối, con trỏ HEAD sẽ chuyển về commit cha (commit đứng sau commit gần nhất).
+- Đồng thời những thay đổi của commit cuối được chuyển vào vùng staging nhằm để có cơ hội commit lại hoặc sửa đổi, cú pháp lệnh như sau:
+
+```bash
+git reset --soft HEAD~1
+```
+
+> Sau lệnh git reset các file vẫn giữ nguyên sự thay đổi hay tạo mới của nó, nhưng các file (các file có sự thay đổi giữa commit 3 và 4, giả sử có 4 commit trong lịch sử và commit 4 là gần nhất) sẽ được đưa vào vùng stagging, dùng lệnh git log thì sẽ không thấy commit 4 ở trong lịch sử nữa
+
+## `git reset` với tham số `--hard`
+
+- Khi dùng tham số `--hard` thì kết quả khác với dùng tham số `--soft`
+- Khác biệt là nội dung thay đổi của commit cuối không đưa đưa vào staging mà bị hủy luôn.
+- Trường hợp này dùng khi bạn quyết định hủy hoàn toàn commit cuối
+
+```bash
+git reset --hard HEAD~1
+```
+
+> Giả sử có 4 commit: 1 2 3 4 trước lệnh `git reset --hard HEAD~1`. Sau lệnh `git reset --hard HEAD~1` sẽ chỉ còn 3 commit: 1 2 3 và tất cả các file/folder sẽ trở thành trạng thái của nó khi ở lịch sử commit 3 (các thay đổi giữa lần commit 3 và 4 sẽ không được lưu lại, nói chung là commit 4 sẽ bị xóa hoàn toàn)
+
+## `git reset` hủy 1 file / toàn bộ khỏi vùng stagging
+
+- Để xóa toàn bộ trong vùng stagging:
+
+```bash
+git reset
+```
+
+- Hủy 1 file nào đó trong vùng stagging chứ không phải toàn bộ:
+
+```bash
+git reset -- <file>
+```

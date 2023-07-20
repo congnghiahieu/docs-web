@@ -1,0 +1,134 @@
+import { Callout } from 'nextra/components';
+
+<Callout>
+  **_Tag là 1 cái tên dùng để đánh dấu 1 commit quan trọng trong toàn bộ lịch sử commit_**
+</Callout>
+
+## Để kiểm tra xem trong local có những tag nào
+
+```bash
+git tag
+```
+
+## Xem thông tin đầy đủ của 1 tag
+
+Câu lệnh:
+
+```bash
+git show <tên tag>
+```
+
+VD:
+
+```bash
+git tag (sẽ biết được tên các tag)
+git show <tên tag muốn xem vừa thấy ở trên>
+```
+
+## Xóa 1 tag
+
+Câu lệnh:
+
+```bash
+git tag -d <tên tag>
+```
+
+VD:
+
+```bash
+git tag (lấy ra tên của các tag)
+git tag -d <tên tag vừa lấy ra ở danh sách trên>
+```
+
+## Đánh dấu tag theo cách đầy đủ
+
+Câu lệnh:
+
+```bash
+git tag -a "tên của tag" -m "thông điệp" <mã hash của commit cần đánh tag>
+```
+
+VD:
+
+```bash
+git tag -a "Master v1" -m "Phiên bản đầu tiên của master" a96a77a
+```
+
+- Chú ý: **_Nếu không truyền vào mã hash của tag cần đánh tag thì mặc định là lần commit gần nhất trên nhánh hiện tại_**
+
+## Sử dụng các tag như các đại diện cho mã hash của commit
+
+- Quay trở về 1 commit trong lịch sử:
+
+  - Cách 1:
+
+  ```bash
+  git checkout <mã hash của 1 commit trong lịch sử>
+  ```
+
+  - Cách 2:
+
+  ```bash
+  git checkout <tên nhánh tương ứng với 1 commit trong lịch sử>
+  ```
+
+## Tạo 1 nhánh mới từ điểm commit trong lịch sử, sử dụng tag
+
+**Giả sử ta có 1 tag đang chỉ tới 1 lần commit trong lịch sử commit**
+
+- Để tạo 1 nhánh mới từ lần commit trong lịch sử đó:
+
+```bash
+git checkout -b <tên nhánh mới> <mã hash của 1 lần commit trong lịch sử hoặc tên tag>
+```
+
+VD: **Giả sử ta có tag có tên "Version1.0Beta" chỉ tới mã hash của commit a96a77b**
+
+```bash
+git checkout -b alpha Version1.0Beta
+```
+
+> Câu lệnh trên có nghĩa là tạo 1 nhánh alpha (tạo điểm rẽ nhánh mới) từ điểm commit có mã hash là **_a96a77b_** và chuyển sang làm việc với nhánh đó
+
+## Đẩy tag lên remote repo
+
+- Câu lệnh:
+
+```bash
+git push <tên remote> <tên tag>
+```
+
+- **Nếu muốn đẩy tất cả các tag thì ta dùng tham số --tags thay cho phần tên tag**
+
+VD:
+
+```bash
+git push origin --tags
+```
+
+VD: Đẩy tag lên remote
+
+- Bước 1: `git remote -v` (kiểm tra xem có remote nào)
+- Bước 2: `git tag` (kiểm tra tên các tag)
+- Bước 3: `git push origin "V1.0Beta"`
+
+## Xóa tag đã được đẩy lên remote
+
+- Bước 1: xóa tag đó ở local:
+
+```bash
+git tag -d <tên tag muốn xóa>
+```
+
+- Bước 2: xóa tag đó ở trên remote
+
+```bash
+git push --delete <tên remote> <tên tag>
+```
+
+VD:
+
+```bash
+git tag -d V2.0Alpha
+git push --delete origin V2.0Alpha
+```

@@ -1,0 +1,66 @@
+import { Callout } from 'nextra/components';
+
+<Callout>
+  **_Docker machine để tạo 1 MÁY ẢO (1 VM) đã có sẵn Docker. Máy ảo chạy bằng virtualbox hoặc hyperv
+  (hyperv chỉ có trên windows), có thể kiểm tra bằng VirtualBox Mangager hoặc HyperV Manager, mặc
+  định hệ điều hành của máy ảo là Linux._**
+</Callout>
+
+## Khởi tạo 1 Docker-machine
+
+- Cú pháp:
+
+```bash
+docker-machine create --driver virtualbox|hyperv --virtualbox-no-vtx-check --virtualbox-memory={numberOfMem} --virtualbox-cpu-count={numberOfCpu} --virtualbox-disk-size={numberOfDiskSize} {dockerMachineName}
+```
+
+- `--virtualbox-memory`: là số lượng MEM muốn cấp cho máy ảo
+- `--virtualbox-cpu-count`: là số lượng CPU Thread muốn cấp cho máy ảo
+- `--virtualbox-disk-size`: Bộ nhớ cung cấp cho máy ảo
+- `--virtualbox-no-vtx-check`: để tránh kiểm tra vtx (ảo hoá của intel - vtx hoặc amd - amdx)
+
+VD:
+
+```bash
+docker-machine create --driver virtualbox --virtualbox-no-vtx-check vps1
+```
+
+```bash
+docker-machine create -d virtualbox --virtualbox-memory=4096 --virtualbox-cpu-count=4 --virtualbox-disk-size=40960 --virtualbox-no-vtx-check vps1
+```
+
+## Truy cập máy ảo
+
+Để truy cập máy ảo sau khi tạo máy ảo, ta tạo kết nối ssh đến máy ảo
+
+```bash
+docker-machine ls
+docker-machine ssh {machineName}
+```
+
+## Khởi tạo Docker swarm
+
+- Vào 1 docker-machine
+
+```bash
+docker-machine ssh vps1
+```
+
+- Khởi tạo Docker swarm, vào 1 docker-machine tạo `master`
+
+```bash
+docker swarm init --advertise-addr={machineIp}
+docker swarm join-token worker
+```
+
+- Vào các machine còn lại được coi là `slave` và nhập mã vừa có được từ `docker swarm join-token worker` để gia nhập `swarm`:
+
+```bash
+docker swarm join {sha256JoinSwarmToken}
+```
+
+- Ở node `master` để xem danh sách các node:
+
+```bash
+docker node ls
+```

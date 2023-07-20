@@ -1,0 +1,59 @@
+import { Callout } from 'nextra/components';
+
+## Container
+
+- Khi cài đặt 1 container (VD container từ image ubuntu) ta đã dowload thêm 1 số package (VD: _"vim, htop,ping"_) thì các package đó sẽ lưu vào container. Khi dừng container (`docker stop`) thì container đó vẫn được lưu trên máy (cùng với các package đã cài)
+
+- Khi xoá hẳn container (`docker rm`) thì container cùng các package sẽ xoá vĩnh viển khỏi local. Ta muốn tạo 1 ra image bao gồm ubuntu và các package mà ta đã tải về, ta sẽ thực hiện từ 1 container ubuntu cùng các package trên máy ta sẽ chuyển nó thành 1 image (tạm gọi là **custom image**) và xuất image đó ra 1 file. Như vậy khi ta thực hiện xoá container cũ, ta chỉ cần tạo 1 container mới từ **custom image**, và các máy khác có docker cũng chỉ cần file custom image mà có thể tạo thêm 1 container khác như máy của chúng ta
+
+## Tạo 1 image từ container
+
+<Callout>**Điều kiện: 1 container đã dừng (stop) và chưa được xoá (`docker rm`)**</Callout>
+
+- Cú pháp:
+
+```bash
+docker commit {containerID} {newImageName}:{newImageTag}
+```
+
+VD:
+
+```bash
+docker commit 57b7bd7200f3 ubuntu-vim:1.0
+```
+
+## Xuất 1 image ra 1 file
+
+- Cú pháp:
+
+```bash
+docker save --output {outputFileName}.tar {imageIdOfImageWantToSave}
+```
+
+VD:
+
+```bash
+docker save --output myImage.tar 2bebc86b929b
+```
+
+## Nạp 1 file image (.tar) vào docker
+
+```bash
+docker load -i {fileName}.tar
+```
+
+- Sau khi nạp lại 1 image từ file (docker load) thì image không có thông tin về name và version.
+
+- Ta cần phải đặt lại tên và version cho image
+
+- Cú pháp:
+
+```bash
+  docker tag {imageID} {imageNewName}:{imageNewVersion}
+```
+
+VD:
+
+```bash
+docker tag 2bebc86b929b newimage:2.0
+```

@@ -1,0 +1,104 @@
+import { Callout } from 'nextra/components';
+
+## Chia sẽ dữ liệu giữa máy host và container
+
+- Cú pháp:
+
+```bash
+docker run -it -v {pathToSharedDataInhost}:{pathToShareDataInContainer} {imageID}
+```
+
+- `pathToShareDataInhost`: là đường dẫn tới thư mục chữa các dữ liệu của máy `host` mà ta muốn chia sẻ cho `container`
+- `pathToShareDataInContainer`: là thư mục mà sẽ ánh xạ dữ liệu của host vào container (cũng như container ánh xạ ngược lại host) (tức là đọc, thêm, sửa, xoá dữ liệu trên thư mục của container thì cũng thực hiên tương tự như trên host)
+
+## 2 Container cùng chia sẻ chung 1 file dữ liệu
+
+Ví dụ: **_có 1 container đã mount vào trước (tên C1)_**
+
+```bash
+docker run -it -v D/Workspace/data/:/home/data --name C1 2bebc86b929b
+```
+
+**_Đối với container thứ 2 (tên C2) muốn cũng mount vào D/Workspace/data_**:
+
+```bash
+docker run --it --name C2 --volumes-from C1 2b
+```
+
+- Cú pháp:
+
+```bash
+docker run -it --name {containerName} --volumes-from {previousContainerNameOrId} {imageId}
+```
+
+## Tạo volume
+
+- 1 volume là 1 ổ đĩa của riêng Docker,không thuộc về máy host nhưng lưu trên máy host.
+- Với volume thì bất cứ container nào cũng có thể truy cập dữ liệu của volume (kể cả khi container bị xoá)
+
+## Kiểm tra danh sách volume
+
+```bash
+docker volume ls
+```
+
+## Tạo thêm 1 volume
+
+```bash
+docker volume create {diskName}
+```
+
+## Kiểm tra thông tin 1 volume
+
+```bash
+docker volume inspect {volumeName}
+```
+
+## Xoá 1 volume
+
+```bash
+docker volume rm volumeName
+```
+
+## Chia sẻ dữ liệu giữa volume và container
+
+```bash
+docker run -it --name {containerName} --mount source={diskName},target={pathToShareFolderInContainer} {imageId}
+```
+
+VD:
+
+```bash
+docker run -it --name C1 --mount source=D2,target=/home/disk2 ubuntu:latest
+```
+
+## Tạo volume ánh xạ đến 1 folder local
+
+- Cú pháp:
+
+```bash
+docker volume create --opt device={AbsolutePathToShareDataInhost} --opt type=none --opt o=bind {diskName}
+```
+
+VD:
+
+```bash
+docker volume create --opt device=D/Workspace/data --opt type=none --opt o=bind DISK1
+```
+
+<Callout>
+  **_Đối với các loại ổ đĩa mà ta ánh xạ từ thư mục của local, để kết nối container với loại volume
+  này ta sử dụng tham số `-v`_**
+</Callout>
+
+Cú pháp:
+
+```bash
+docker run -it -v {diskName}:{pathToShareFolderInContainer} {imageName}|{imageId}
+```
+
+VD:
+
+```bash
+docker run -it -v DISK1:/home/disk ubuntu:latest
+```

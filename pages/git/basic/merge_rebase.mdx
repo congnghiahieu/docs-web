@@ -1,0 +1,11 @@
+## `git merge`
+
+- **_Git merge sau khi gộp vào thì các commit sẽ vẫn giữ được thứ tự thời gian của các commit trên các nhánh_**
+
+- **_Git merge sẽ so sánh 3 lịch sử commit: (giả sử có 2 nhánh a và b) so sánh giữa commit base (commit chung của a và b trước khi tách ra) với lịch sử commit gần nhất của nhánh a với lịch sử commit gần nhất của nhánh b_**
+
+- **Nếu không có xung đột xảy ra** thì chúng ta chỉ cần `git status` và `git commit`
+
+- Nếu có xung đột xảy ra thì ta phải vào từng file, từng folder xảy ra xung đột xem lựa chọn phần lịch sử commit của nhánh a hay b. Sau khi lựa chọn xong thì ta phải `git add` rồi sau đó `git status` để check rồi `git commit`
+
+## `git rebase`

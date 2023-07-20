@@ -1,0 +1,131 @@
+import { Callout } from 'nextra/components';
+
+## Docker Network
+
+- Trong `Docker` có thể quản trị 1 hệ thống mạng để liên kết các `container` với nhau, và có thể liên kết các container đó với bên ngoài (với internet)
+
+- **_Xem danh sách các network đang có_**:
+
+```bash
+docker network ls
+```
+
+- Ta sẽ thấy có _3_ network mặc định với Name là: `bridge, host, none` (**_ta chỉ quan tâm tới network bridge_**)
+- Mặc định khi 1 container được tạo ra thì nó sẽ kết nới với network bridge (nếu ta không chỉ định cụ thể container đó sẽ liên kết với network nào) và bridge này lại liên kết với mạng của máy chủ (liên kết tới IP: 127.0.0.1 ~ localhost)
+
+## Kiểm tra thông tin của 1 network
+
+- **Giả sử là có container nào đang liên kết với network này**
+
+```bash
+docker network inspect {networkName}
+```
+
+## Kiểm tra xem thông tin của 1 container
+
+- Thông tin của 1 container bao gồm thông tin về Network-IPAddress của 1 container
+
+```bash
+docker inspect {containerName}|{containerID}
+```
+
+## Request bên ngoài vào container
+
+- Có những trường hợp: Ta cần tạo request từ bên ngoài (client hoặc 1 máy khác) đến 1 container của máy host
+
+- Khi đó ta cần request thông qua đến máy host (cổng `127.0.0.1`) để truy cập đến 1 server của 1 container (Ví dụ IP Address của 1 container là: `172.17.0.3` cổng `80`). Ta cần ánh xạ cổng `80` của container vào 1 cổng (ví dụ cổng `8888`) của máy host (`127.0.0.1`) để khi máy bên ngoài chỉ cần truy cập vào cổng (`127.0.0.1` cổng `8888`) là cũng có thể truy cập đến cổng `80` của container
+
+- Cú pháp tạo 1 container mới có cổng 80 được ánh xạ tới cổng 8888 của localhost:
+
+```bash
+docker run -it -p {gateOfLocalHost}:{gateOfContainer} {imageName}
+```
+
+**_Thêm tham số `-p`_**
+
+VD:
+
+```bash
+docker run -it -p 8888:80 busybox
+```
+
+## Tạo mới và xoá 1 network
+
+### Tạo mới
+
+```bash
+docker network create --driver {networkType} {networkName}
+```
+
+VD:
+
+```bash
+docker network create --driver bridge network1
+```
+
+### Xoá
+
+```bash
+docker network rm {networkName}|{networkID}
+```
+
+VD:
+
+```bash
+docker network rm network1
+```
+
+## Chỉ rõ network cho container
+
+```bash
+docker run -it --name {containerName} --network {networkName} {imageName}
+```
+
+VD:
+
+```bash
+docker run -it --name B3 --network mynetwork busybox
+```
+
+## Kết nối 1 container đang chạy tới 1 network
+
+<Callout>***1 container có thể kết nối tới nhiều network***</Callout>
+
+```bash
+docker network connect {networkName}|{networkID} {containerName}|{containerID}
+```
+
+VD:
+
+```bash
+docker network connect bridge B3
+```
+
+## Thiết lập biến môi trường cho container
+
+VD:
+
+```bash
+docker run -it --rm -e {KEY1}={VALUE1} -e {KEY2}={VALUE2} {containerName}
+```
+
+**_Sử dụng tham số `-e`_**
+
+## Kiểm tra logs của 1 container
+
+```bash
+docker logs {containerName}|{containerId}
+```
+
+VD:
+
+```bash
+docker logs c-php
+docker logs c-httpd
+```
+
+## Restart lại 1 container
+
+```bash
+docker restart {containerName}|{containerId}
+```

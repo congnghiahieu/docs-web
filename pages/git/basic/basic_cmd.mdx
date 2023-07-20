@@ -1,0 +1,119 @@
+import { Callout } from 'nextra/components';
+
+## Xóa 1 file
+
+- Khi xóa 1 file tức là có sự thay đổi giữa working tree và local databse
+- Dùng git status để xem được trạng thái file nào đã được xóa
+- Nếu muốn thực hiện việc xóa và cập nhật việc này lên local database thì:
+
+```bash
+git add <deleted file>
+git commit -m "message"
+
+# Việc xoá đã được cập nhật vào git local
+```
+
+- Nếu muốn khôi phục lại file vừa xóa:
+
+```bash
+git restore <deleted file>
+```
+
+## `git diff`
+
+- Khi thay đổi 1 file (ở trạng thái `Modified`) và muốn xem file này khác gì so với chính nó ở lần commit gần nhất (So sánh sự khác nhau giữa 1 file sau khi sửa đổi ở working tree với local database)
+
+- Sử dụng lệnh:
+
+```bash
+git diff
+```
+
+- Chú ý: cơ chế hoạt động của `git diff`:
+
+  - Nếu ta sửa đổi các file và thêm mới (đang ở trạng thái `Modified` hoặc `Untracked`) (dùng `git status` để kiểm tra) nhưng chưa đưa vào vùng `Stagging` (trạng
+    thái `Stagged`) (tức là vùng `Stagging` là trống) thì nó sẽ so sánh `working tree` với lần commit
+    cuối trong `git local database`
+  - Nếu ta đã sửa đổi các file và thêm mới, rồi đã đưa vào vùng
+    `Stagged` (bằng `git add`) thì `git diff` sẽ so sánh `working tree` và vùng `Stagging`
+  - Để biết được
+    sự khác nhau giữa vùng `Stagging` (sau khi đưa các file ở trạng thái `Modified` hoặc `Untracked`
+    vào vùng `Stagging` bằng lệnh git add) và lần commit gần nhất, ta dùng lệnh:
+
+    ```bash
+    git diff --staged
+    ```
+
+## Khôi phục 1 file / folder từ các lần commit trước
+
+- Bước 1: Xem mã hash của các lần commit bằng `git log` hoặc `git log --oneline`
+  Giả sử: Ta có 3 lần commit với mã hash của commit lần lượt là: `hash1`, `hash2` , `hash3`
+- Bước 2: ta đang ở lần commit gần nhất (lần commit 3) mà muốn khôi phục 1 file ở commit thứ 1, dùng lệnh:
+  ```bash
+  git checkout <mã hash của commit muốn quay trở về> -- <tên file / folder>
+  ```
+- Bước 3: Dùng `git status` để kiểm tra trạng thái của file đã được khôi phục, sau khi khôi phục thì file lập tức được đưa vào vùng `Stagging`
+- Bước 4: Để đưa file ở trạng thái `Stagged` về trạng thái `Modified` ta dùng lệnh:
+  ```bash
+  git restore --staged <file>
+  ```
+- Chú ý: **_nếu muốn phục hồi từ commit gần nhất thì không cần thêm mã hash của commit_**:
+
+```bash
+git checkout -- <file>
+```
+
+## Hủy các file trong vùng stagged
+
+- Lệnh:
+
+```bash
+git restore --staged <file>
+```
+
+- Khôi phục các file về lần commit cuối:
+
+```bash
+git restore <file>
+```
+
+## .gitignore
+
+**_Bỏ qua file / folder không cần git local repo kiểm soát (ví dụ như 1 số file , folder cache hoặc tmp)_**
+
+- Bước 1: Ở folder project tạo 1 file `".gitignore"`
+- Bước 2: Thêm tên các file / folder muốn ignore
+  VD: Muốn ignore 1 file `hello.txt` , các file trong folder `cache`, các file có đuôi là `.tmp`
+  Trong file .gitignore:
+  ```
+  hello.txt
+  \*.tmp
+  cache
+  ```
+- Bước 3: Sau khi tạo file `.gitignore` thì các file / folder liệt kê trong `.gitignore` sẽ bị bỏ qua, nhưng git local repo sẽ coi file .gitignore mới tạo là 1 file ở trạng thái `Untracked`, ta chỉ cần dùng `git add` và `git commit` để lưu lại file `.gitignore` này vào trong local repo
+
+## Bổ sung vào lần commit cuối
+
+- Có nhiều trường hợp ta add thiếu file / folder hoặc là thay đổi quá ít file / folder nên không cần thiết tạo ra commit mới (tạo ra lịch sử commit mới, xem bằng `git log`), ta sẽ bổ sung vào lần commit gần nhất bằng cách thêm tham số `--amend`:
+
+  - Bước 1: add lại các file / folder thiếu nếu chưa được đưa vào vùng stagging
+  - Bước 2:
+
+  ```bash
+  git commit --amend -m "message
+  ```
+
+## So sánh sự khác nhau giữa 2 lịch sử commit
+
+- Bước 1: `git log` để lấy được mã hash của các lần commit
+- Bước 2: sử dụng câu lệnh:
+
+```bash
+git diff <mã hash của commit cần so sánh> <mã hash của commit cần so sánh>
+```
+
+- Có thể xem sự khác nhau dưới dạng bảng thống kê như sau:
+
+```bash
+git diff <mã hash của commit cần so sánh> <mã hash của commit cần so sánh> --stat
+```

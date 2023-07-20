@@ -1,0 +1,10 @@
+{
+  "index": "Hello World",
+  "docker": "Docker",
+  "git": "Git & Github",
+  "db": "Database",
+  "react": "React & NextJS",
+  "ubuntu": "Ubuntu",
+  "vim": "Vim & NeoVim",
+  "npm": "NPM"
+}

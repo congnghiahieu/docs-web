@@ -1,0 +1,25 @@
+## Đẩy 1 local lên remote
+
+- Bước 1: `git remote add <tên remote> <địa chỉ của remote repo vừa mới tạo>`
+- Bước 2: `git remote -v` để kiểm tra
+- Bước 3: Giả sử trong local đã có sẵn 2 nhánh master và beta với những lịch sử commit riêng của 2 nhánh:
+  ```bash
+  git push <tên remote> <tên nhánh từ local muốn đẩy lên>
+  ```
+  VD:
+  ```bash
+  git push origin master
+  ```
+
+## git clone
+
+- Bước 1: `git clone`.
+
+  Chú ý: **Khi clone về từ 1 remote repo thì ta chỉ clone được nhánh default (thường là nhánh master) chứ không clone được tất cả các nhánh trên remote repo (ví dụ là có 2 nhánh trên remote repo là master và beta)**
+
+- Bước 2: Dùng lệnh `git branch`, `git branch -a`, `git log --oneline` để kiểm tra
+- Bước 3: Có thể dùng:
+  ```bash
+  git checkout beta
+  ```
+  Việc này sẽ tạo 1 nhánh beta mới ở local giống như nhánh beta ở remote (là clone nhánh beta từ remote về local)

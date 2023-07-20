@@ -1,0 +1,20 @@
+## Copy 1 file / 1 folder trực tiếp từ máy host sang 1 container đang chạy
+
+```bash
+docker cp {absolutePathAtHost} {containerName}:{absolutePathAtContainer}
+```
+
+VD:
+
+```bash
+docker cp D:/Workspace/mycode/myimage/test.html mycentos:/var/www/html
+```
+
+## Build 1 image từ Docker file
+
+```bash
+docker build --tag myimage:v1 --file Dockerfile .
+```
+
+- `--tag` là tên và tag của image mới muốn build
+- `--file`: `Dockerfile` và `.` là thể hiện đường dẫn tới Dockerfile này (ở TH này dùng dấu chấm tức là cùng thư mục với vị trí thực hiện câu lệnh)

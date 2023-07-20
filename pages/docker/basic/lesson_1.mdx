@@ -1,0 +1,75 @@
+## Kiểm tra phiên bản và thông tin của docker
+
+```bash
+docker --version
+docker info
+```
+
+## Xem hỗ trợ về các lệnh của docker
+
+```bash
+docker COMMAND --help
+```
+
+VD:
+
+```bash
+docker image --help
+```
+
+## Lệnh xem các image
+
+- Image hiểu đơn giản là các phần mềm (ngix, nodejs, ubuntu).
+- Khi chạy 1 container thì các image sẽ tạo ra 1 instance để chạy trong container
+- Xem các image ở local:
+
+```bash
+docker image ls
+```
+
+## Tìm kiếm 1 image
+
+```bash
+docker search {imageName}
+```
+
+VD:
+
+```bash
+docker search nodejs
+docker search ngix
+```
+
+## Kéo (tải) (giống như tải 1 package về local) 1 image về local
+
+```bash
+docker pull {imageName}:{imageTag}
+```
+
+VD:
+
+```bash
+docker pull ubuntu:20.04
+docker pull ubuntu:latest
+```
+
+## Xoá 1 image
+
+### Xoá bằng tên và Tag
+
+```bash
+docker image rm {imageName}:{imageTag}
+```
+
+VD:
+
+```bash
+docker image rm ubuntu:16.04
+```
+
+### Xoá bằng image ID
+
+```bash
+docker image ls
+docker image rm {imageID}
+```

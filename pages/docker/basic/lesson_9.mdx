@@ -1,0 +1,43 @@
+## Truy cập Dockerhub
+
+Vào https://hub.docker.com để tạo 1 repository với tên: `username/imageName`
+
+VD: `hieucien/swarmtest`
+
+## Đăng nhập Docker Desktop
+
+Đăng nhập tài khoản Docker
+
+```bash
+docker login -u {username}
+```
+
+VD:
+
+```bash
+docker login -u hieucien
+```
+
+- Đánh tag cho image
+
+```bash
+docker tag {mylocalimage}:{mylocalimageTag} {username}/{imageName}:{imageTag}
+```
+
+VD:
+
+```bash
+docker tag swarmtest:node hieicien/swarmtest:node
+```
+
+Đẩy lên Docker
+
+```bash
+docker push {mylocalImageName}:{myLocalImageTag}
+```
+
+VD:
+
+```bash
+docker push username/swarmtest:node
+```

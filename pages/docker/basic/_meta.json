@@ -1,0 +1,16 @@
+{
+  "lesson_1": "Xem, tải, xoá các image",
+  "lesson_2": "Chạy, dừng các container",
+  "lesson_3": "Lệnh docker exec",
+  "lesson_4": "Lưu container thành 1 image, xuất image ra file",
+  "lesson_5": "Docker Volume",
+  "lesson_6": "Docker Network",
+  "lesson_7": "Xem thông tin, giám sát container",
+  "lesson_8": "Dockerfile, docker build",
+  "lesson_9": "Đẩy image lên Dockerhub",
+  "lesson_10": "Docker machine, Docker swarm",
+  "lesson_11": "Tạo dịch vụ trên Docker swarm",
+  "setting": {
+    "display": "hidden"
+  }
+}

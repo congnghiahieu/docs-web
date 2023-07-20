@@ -1,0 +1,53 @@
+import { Callout } from 'nextra/components';
+
+## Kiểm tra thông tin của 1 image hoặc của 1 container
+
+```bash
+docker inspect {imageName}|{containerName}
+```
+
+VD:
+
+```bash
+docker inspect httpd
+docker inspect c-httpd
+```
+
+## So sánh container hiện tại khác gì so với ban đầu
+
+```bash
+docker diff {containerName}|{containerId}
+```
+
+## Kiểm tra logs của container
+
+```bash
+docker logs {containerName}|{containerId}
+```
+
+- Để xem thêm nhiều options khác
+
+```bash
+docker logs --help
+```
+
+## Kiểm tra thông số của 1 hoặc nhiều container
+
+<Callout>Các thông số được hiện thị: CPU, Mem, Network</Callout>
+
+```bash
+docker stats {containerName}
+```
+
+VD:
+
+```shell
+docker stats c-php
+docker stats B1 B2 B3 B4
+```
+
+- Kiểm tra thông số của tất cả các container đang chạy:
+
+```bash
+docker stats
+```

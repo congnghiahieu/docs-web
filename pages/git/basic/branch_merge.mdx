@@ -1,0 +1,105 @@
+## Kiểm tra xem có bao nhiêu nhánh và đang ở nhánh nào
+
+```bash
+git branch
+```
+
+## Tạo 1 nhánh mới
+
+### Tạo 1 nhánh mới nhưng không chuyển sang luôn
+
+```bash
+git branch <tên nhánh>
+```
+
+### Tạo 1 nhánh mới và chuyển sang luôn
+
+```bash
+git checkout -b <tên nhánh>
+
+# hoặc
+
+git switch -c <tên nhánh>
+```
+
+## Chuyển sang 1 nhánh
+
+```bash
+git checkout <branch name>
+
+# hoặc
+
+git switch <branch name>
+```
+
+## Xóa nhánh
+
+```bash
+git branch -D <tên nhánh>
+```
+
+## Gộp 2 nhánh
+
+- Giả sử ta có `2 nhánh A và B`, ta muốn gộp nhánh B vào nhánh A (nhánh A sẽ là nhánh target, B ta coi là selected)
+
+  - Bước 1: Checkout sang nhánh target
+
+  ```bash
+  git switch A
+  ```
+
+  - Bước 2: Thực hiện gộp nhánh selected vào target
+
+  ```bash
+  git merge B
+  ```
+
+  - Bước 3: Kiểm tra lịch sử commit sau khi gộp
+
+  ```bash
+  git log
+
+  # hoặc
+
+  git log -- oneline
+
+  # hoặc
+
+  git log --oneline --graph
+  ```
+
+  - Bước 4: Kiểm tra trạng thái của nhánh target
+
+  ```bash
+  git status
+  ```
+
+## Xử lý nhánh khi có xung đột
+
+- Chú ý: **_nếu có xung đột mà ta không giải quyết ta có thể hủy bỏ việc merge_**:
+
+```bash
+git merge --abort
+```
+
+- Nếu ta xử lý thì làm theo cách sau:
+
+  - Trong 1 số IDE có tích hợp tool để xử lý xung đột giữa các nhánh (đưa ra lựa chọn: chọn thay đổi ở nhánh A, chọn thay đổi ở nhánh B, chọn cả 2) dưới dạng UI
+
+  - Nếu IDE không hỗ trợ chọn dươi dạng UI, ta sử dụng:
+    ```bash
+    git mergetool
+    ```
+    - Bước 1: Sẽ hiện ra giao diện thứ tự như sau: LOCAL ( là branch target ở đây là branch A), BASE (là lần commit chung của A và B trước khi rẽ nhánh), REMOTE (là branch target), MERGE (là branch target sau khi gộp)
+    - Bước 2: để quyết định lấy từ branch nào ta dùng 1 trong 3 lệnh sau:
+    ```vim
+      :diffg RE " get from REMOTE
+      :diffg BA " get from BASE
+      :diffg LO " get from LOCAL
+    ```
+    Bước 3: để kết thúc việc chọn:
+    ```vim
+    :wqa
+    ```
+  - Sau khi thoát sẽ có 2 file: 1 file là kết quả sau khi chọn (ở trạng thái modified) và 1 file là bản lưu của file xung đột (ở trạng thái untracked, có thể xóa file này đi)
+    Bước 4: `git status` và `git commit` để commit và kết thúc merge

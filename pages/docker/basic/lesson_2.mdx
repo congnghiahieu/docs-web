@@ -1,0 +1,105 @@
+import { Callout } from 'nextra/components';
+
+## Image là gì ?
+
+<Callout type='info' emoji='ℹ'>
+**_Khi image chạy thì phiên bản thực thi của image được gọi là các container (Kiểu image là 1 class và container là instance của class đó)_**
+
+</Callout>
+
+## Chạy 1 container từ image
+
+- Chạy 1 image tức là tạo 1 container từ 1 image
+- Cú pháp:
+
+```bash
+docker run {imageRunParameter} {imageName}|{imageID} {imageCommand} {imageCommandParameter}
+```
+
+VD:
+
+```bash
+docker run -i -t ubuntu:latest
+```
+
+- Lưu ý:
+  - Tham số -i: tạo ra 1 container có thể tương tác
+  - Tham số -t: tạo 1 container kết nối tới terminal
+
+## Tạo 1 container dùng 1 lần
+
+- Tạo và sau khi thoát container thì sẽ tự động xoá luôn
+
+**_Thêm tham số -rm_**
+
+```bash
+docker run -it -rm {imageName}
+```
+
+## Kiểm tra xem container nào đang chạy
+
+```bash
+docker ps
+docker ps -a
+```
+
+## Start lại 1 container đã tắt
+
+```bash
+docker ps -a
+docker start {containerID}|{containerName}
+```
+
+VD:
+
+```bash
+docker ps -a
+docker start bc41e51900cf
+
+```
+
+## Sau khi start lại 1 container đã thoát (đã tắt) và muốn vào lại bằng terminal
+
+```bash
+docker attach containerID
+```
+
+## Thoát trạng thái kết nối terminal của 1 container nhưng không tắt container
+
+**_Tổ hợp phím "Ctrl + P, Ctrl + Q"_**
+
+## Khi thoát terminal của container (sau khi thoát thì đang ở máy host) và muốn dừng 1 container
+
+```bash
+docker stop {containerID}|{containerName}
+```
+
+## Đặt name và host name cho 1 container
+
+- Cú pháp:
+
+```bash
+docker run -it --name "{containerName}" -h {hostName} {imageId}|{iamgeName}
+```
+
+VD:
+
+```bash
+docker run -it -name "ABC" -h centos1 centos:latest
+```
+
+## Xoá hẳn 1 container đã được dừng trước
+
+**_Với docker stop hay thoát container terminal thì ta chỉ dừng container_**
+
+- Cú pháp:
+
+```bash
+docker rm {containerID}|{containerName}
+```
+
+## Xoá hẳn 1 container đang chạy
+
+```bash
+docker rm -f {containerID}|{containerImage}
+```

@@ -1,0 +1,6 @@
+{
+  "resource": "Resource",
+  "basic": "Fundamentals",
+  "docker_file": "Dockerfile",
+  "docker_compose": "Docker Compose"
+}

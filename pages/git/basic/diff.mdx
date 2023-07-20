@@ -1,0 +1,42 @@
+import { Callout } from 'nextra/components';
+
+<Callout>
+  Lệnh `git diff` hiện thị thông tin thay đổi giữa thư mục làm việc và vùng staging hoặc với commit
+  cũ, thông tin thay đổi giữa staging và commit, thông tin thay đổi giữa hai nhánh ...
+</Callout>
+
+- Mặc định thi hành lệnh như sau:
+
+```bash
+git diff
+```
+
+- Nó hiện thị thông tin tùy ngữ cảnh như sau:
+  - Thông tin khác nhau giữa working tree và commit cuối khi mà vùng staggin (staging) không có dữ liệu gì
+  - Thông tin thay đổi giữa vùng staging và commit cuối nếu vùng staging có dữ liệu
+
+## Kiểm tra sự thay đổi thư mục làm việc
+
+**_Khi có sự thay đổi của thư mục làm việc mà chưa add, thì có thể xem sự thay đổi của nó với commit cuối_**
+
+```bash
+git diff
+```
+
+## Kiểm tra sự thay đổi của staging với commit cuối
+
+```bash
+git diff --staged
+```
+
+## Kiểm tra thay đổi giữa hai commit
+
+```bash
+git diff <hash-commit1> <hash-commit2>
+```
+
+## Kiểm tra sự thay đổi của hai nhánh
+
+```bash
+git diff <branch1> <branch2>
+```
